@@ -1,0 +1,50 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+require_once './include/conexion.php';
+$link = Conexion();
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+    //include './include/conexion.php';
+
+    $dni=$_REQUEST['ndni'];
+    $nombre=$_REQUEST['nombre'];
+    $apellido=$_REQUEST['apellido'];
+    $fechadenacimiento=($_REQUEST['fechadenacimiento']);
+    $domicilio=$_REQUEST['domicilio'];
+    $telefono=$_REQUEST['telefono'];
+    $celular=$_REQUEST['celular'];
+    $telefonodereferencia=$_REQUEST['telefonodereferencia'];
+    $email=$_REQUEST['email'];
+    $gruposanguineo=$_REQUEST['gruposanguineo'];
+    $antecedentesmedicos=$_REQUEST['antecedentesmedicos'];
+    $medicacion=$_REQUEST['medicacion'];
+    $fechademovimiento=($_REQUEST['fechademovimiento']);
+    $estado=$_REQUEST['estado'];
+    $actividadquerealiza=$_REQUEST['actividadquerealiza'];
+
+   $sql ="INSERT INTO socios (dni,nombre,apellido,fechadenacimiento,domicilio,telefono,celular,telefonodereferencia,email,gruposanguineo,antecedentesmedicos,medicacion,fechademovimiento,estado,actividadquerealiza) VALUES ('$dni','$nombre','$apellido','$fechadenacimiento','$domicilio','telefono','$celular','$telefonodereferencia','$email','$gruposanguineo','$antecedentesmedicos','$medicacion','$fechademovimiento','$estado','$actividadquerealiza') ON DUPLICATE KEY UPDATE nombre='$nombre', apellido='$apellido', fechadenacimiento='$fechadenacimiento', domicilio='$domicilio', telefono='$telefono', celular='$celular', telefonodereferencia='$telefonodereferencia',email='$email',gruposanguineo='$gruposanguineo',antecedentesmedicos='$antecedentesmedicos',medicacion='$medicacion',fechademovimiento='$fechademovimiento', estado='$estado', actividadquerealiza='$actividadquerealiza'"; 
+    
+
+    mysqli_query($link,$sql)  or die(Error($sql,$link));
+    @mysqli_close($link);
+
+    ?>
+    Datos del Socio almacenados.!
+  </body>
+</html>

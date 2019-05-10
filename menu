@@ -1,93 +1,42 @@
-html {
-    background: url(../img/intro3.jpg) no-repeat fixed center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-color:#B0C4DE;
-}
+		<div class="Menu_Horizontal">
+			<ul>
+				<li><a href="./">Inicio</a></li>
 
-.Hdropdown_red_tab__menu {
-    margin:0px;
-    padding:0px;
-    font-family:verdana, geneva, arial, helvetica, sans-serif;
-    font-size:14px;
-    font-weight:bold;
-    color:#8e8e8e;
-}
+				<li><a href="#">Actividades</a>
+					<ul>
+						<li><a href="actividades_datos.php?accion=nuevo"	>Alta</a></li>
+						<li><a href="actividades_busca.php?accion=borra"	>Baja</a></li>
+						<li><a href="actividades_busca.php?accion=consulta"	>Consulta</a></li>
+						<li><a href="actividades_busca.php?accion=modifica"	>Modificaci&oacute;n</a></li>
+					</ul>
+				</li>
 
-.Menu_Horizontal ul {
-	border-style: solid;
-    border-width: 1px;
-    height:43px;
-    list-style:none;
-    margin:0;
-    padding:0;
-}
+				<li><a href="#">Pileta</a>
+					<ul>
+						<li><a href="aquagym.php">Aqua Gym</a></li>
+						<li><a href="escuelanatacion.php">Nataci&oacute;n</a></li>
+						<li><a href="pileta.php">Pileta libre</a></li>								
+					</ul>					
+				</li>
 
-.Menu_Horizontal li {
-    float:left;
-    padding:0px 8px 0px 8px;
-    background:#ADD8E6;
-}
+				<li><a href="#">Profesores</a>
+					<ul>
+						<li><a href="profe_datos.php?accion=nuevo"	>Alta</a></li>
+						<li><a href="profe_busca.php?accion=borra"	>Baja</a></li>
+						<li><a href="profe_busca.php?accion=consulta"	>Consulta</a></li>
+						<li><a href="profe_busca.php?accion=modifica"	>Modificaci&oacute;n</a></li>
+					</ul>
+				</li>
 
-.Menu_Horizontal li a {
-    color:#000000;
-    display:block;
-    font-weight:bold;
-    line-height:43px;
-    padding:0px 25px;
-    text-align:center;
-    text-decoration:none;
-}
-
-.Menu_Horizontal li a:hover {
-    color:#FFFFFF;
-    text-decoration:none;
-    background:#00BFFF;
-}
-
-.Menu_Horizontal li ul {
-    background:#BA55D3;
-    border-left:1px solid #000000;
-    border-right:1px solid #000000;
-    border-bottom:0px solid #000000;
-    display:none;
-    height:auto;
-    filter:alpha(opacity=95);
-    opacity:0.95;
-    position:absolute;
-    width:225px;
-    z-index:200;
-}
-
-.Menu_Horizontal li:hover ul {
-    display:block;
-}
-
-.Menu_Horizontal li li {
-    display:block;
-    float:none;
-    padding:0px;
-    width:225px; 
-    border-bottom:solid 1px #000000;
-}
-
-.Menu_Horizontal li ul a {
-    display:block;
-    font-size:12px;
-    font-style:normal;
-    padding:0px 10px 0px 15px; line-height:30px;
-    text-align:left;
-}
-
-.Menu_Horizontal li ul a:hover {
-    background:#00BFFF;
-    color:#FFFFFF;
-    opacity:1.0;
-    filter:alpha(opacity=100);
-}
-
-.Menu_Horizontal p {
-    clear:left;
-}
+				<li><a href="#">Socios</a>
+					<ul>		
+						<li><a href="socio_datos.php?accion=nuevo"	>Alta</a></li>
+						<li><a href="socio_busca.php?accion=borra"	>Baja</a></li>
+						<li><a href="socio_busca.php?accion=consulta"	>Consulta</a></li>
+						<li><a href="socio_busca.php?accion=modifica"	>Modificaci&oacute;n</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="salir.php">(Salir)</a></li>
+			</ul>
+		</div>

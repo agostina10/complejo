@@ -1,0 +1,44 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+    include './include/conexion.php';
+
+    $dni=$_REQUEST['dni'];
+    $nombre=$_REQUEST['nombre'];
+    $apellido=$_REQUEST['apellido'];
+    $domicilio=$_REQUEST['domicilio'];
+    $telefono=$_REQUEST['telefono'];
+    $celular=$_REQUEST['celular'];
+    $email=$_REQUEST['email'];
+    $fechaingreso=($_REQUEST['fechaingreso']);
+    $fechamovimiento=($_REQUEST['fechamovimiento']);
+    $estado=$_REQUEST['estado'];
+
+    $link = Conexion();   
+    
+
+    $sql ="INSERT INTO profesores (dni,nombre,apellido,domicilio,telefono,celular,email,fechaingreso,fechamovimiento,estado) VALUES ('$dni','$nombre','$apellido','$domicilio','$telefono','$celular','$email','$fechaingreso','$fechamovimiento','$estado') ON DUPLICATE KEY UPDATE nombre='$nombre', apellido='$apellido', domicilio='$domicilio', telefono='$telefono', celular='$celular', email='$email', fechaingreso='$fechaingreso', fechamovimiento='$fechamovimiento', estado='$estado'";        
+    mysqli_query($link,$sql) or die(Error($sql,$link));
+    @mysqli_close($link);
+
+    ?>
+    Datos del Profesor almacenados.!
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<?php
+$dni = $_GET['dni'] ? $_GET['dni'] : null;
+$dniProfesor = $_GET['dniProfesor'] ? $_GET['dniProfesor'] : null;
+function validateDNI($dni)
+{
+	if(!is_null($dni))
+	{
+		require_once './include/conexion.php';
+		$link = Conexion();
+		$sql_b = "SELECT dni FROM socios WHERE dni = '$dni'";
+		$result = mysqli_query($link,$sql_b)  or die(Error($sql_b,$link));
+		echo mysqli_num_rows($result);
+	}
+}
+validateDNI($dni);
+function validateDNIProfesor($dni)
+{
+	if(!is_null($dni))
+	{
+		require_once './include/conexion.php';
+		$link = Conexion();
+		$sql_b = "SELECT dni FROM profesores WHERE dni = '$dni'";
+		$result = mysqli_query($link,$sql_b)  or die(Error($sql_b,$link));
+		echo mysqli_num_rows($result);
+	}
+}
+validateDNIProfesor($dniProfesor);

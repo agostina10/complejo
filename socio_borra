@@ -1,0 +1,33 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+    $dni=$_REQUEST['dni'];
+
+    include './include/conexion.php';
+    $link = Conexion();   
+    
+    $sql ="DELETE FROM socios WHERE dni='$dni' LIMIT 1"; 
+    mysqli_query($link,$sql) or die(Error($sql,$link));
+    @mysqli_close($link);
+
+    ?>
+    Datos del socio borrados.!
+  </body>
+</html>

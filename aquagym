@@ -1,0 +1,116 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+
+    $accion =$_REQUEST['accion'];
+    $nombre =$_REQUEST['nombre'];
+
+    if($accion=="nuevo" or $accion=="modifica"){
+      $disabled="";           //form prendido
+    }else{
+      $disabled="disabled";   //form activo
+    }
+     
+
+    //busqueda de datos
+    if($accion=="consulta" or $accion=="borra" or $accion=="modifica"){
+      include './include/conexion.php';
+      $link = Conexion();   
+    
+      $sql ="SELECT * FROM pileta WHERE nombre=$nombre LIMIT 1"; 
+      $res =mysqli_query($link,$sql); 
+      $row = mysqli_fetch_assoc ($res);
+      @mysqli_close($link);
+      
+      
+      
+    }
+
+    ?>
+     
+<title>Gimnasia acuática</title>
+
+ 
+<h1>Gimnasia acuática</h1>
+ 
+<table>
+<tr>
+  <td><strong>Dia</strong></td>
+  <td><strong>Hora</strong></td>
+  
+</tr>
+ 
+<tr>
+  <td>Lunes,Miercoles,Viernes</td>
+  
+  <td>14:00 - 15:00</td>
+  <td>15:00- 16:00</td>
+  <td>19:15-20:15</td>
+</tr>
+<tr>
+  <td>Martes y jueves</td>
+  
+  <td>14:00 - 15:00</td>
+  <td>15:00- 16:00</td>
+  <td>16:00- 17:00</td>
+  <td>19:15- 20:15</td>
+
+
+  
+  
+  
+ 
+
+  
+</tr>
+ <tr>
+  <td>Dos veces por semana</td>
+  
+  <td>360$</td>
+
+</tr>
+<tr>
+  <td>Tres veces por semana</td>
+  
+  <td>480$</td>
+  
+</tr>
+
+<table>
+  <h1>Afiliados a Luz y Fuerza</h1>
+<tr>
+  <td>Dos veces por semana</td>
+  
+  <td>70$</td>
+
+</tr>
+<tr>
+  <td>Tres veces por semana</td>
+  
+  <td>80$</td>
+  
+</tr>
+</table>
+
+ 
+
+</body>
+
+</html>

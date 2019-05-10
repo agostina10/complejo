@@ -1,0 +1,198 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+
+    $accion =$_REQUEST['accion'];
+    $dni    =$_REQUEST['dni'];
+
+    if($accion=="nuevo" or $accion=="modifica"){
+      $disabled="";           //form prendido
+    }else{
+      $disabled="disabled";   //form activo
+    }
+     
+
+    //busqueda de datos
+    if($accion=="consulta" or $accion=="borra" or $accion=="modifica"){
+      include './include/conexion.php';
+      $link = Conexion();   
+    
+      $sql ="SELECT * FROM profesores WHERE dni=$dni LIMIT 1"; 
+      $res =mysqli_query($link,$sql)  or die(Error($sql,$link));
+      $row = mysqli_fetch_assoc ($res);
+      @mysqli_close($link);
+      
+      $dni=$row['dni'];
+      $nombre=$row['nombre'];
+      $apellido=$row['apellido'];
+      $domicilio=$row['domicilio'];
+      $telefono=$row['telefono'];
+      $celular=$row['celular'];
+      $email=$row['email'];
+      $fechaingreso=($row['fechaingreso']);
+      $fechamovimiento=($row['fechamovimiento']);
+      $estado=$row['estado'];
+    
+    }
+
+    ?>
+    <form name="contactform" method="get" action="profe_graba.php">      
+      <table width="600px">
+        <tr>
+          <td valign="top">
+            <label for="dni">dni </label>
+          </td>
+          
+          <td valign="top">
+            <input  type="text" name="dni" id="dniProfesor" maxlength="8" size="10" required="required" value="<?php echo $dni;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Nombre">Nombre </label>
+          </td>
+          
+          <td valign="top">
+            <input  type="text" name="nombre" maxlength="50" size="30" required="required" value="<?php echo $nombre;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+        
+        <tr>
+          <td valign="top">
+            <label for="Apellido">Apellido </label>
+          </td>
+          
+          <td valign="top">
+            <input  type="text" name="apellido" maxlength="50" size="30" required="required" value="<?php echo $apellido;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>     
+     
+        <tr>
+          <td valign="top">
+            <label for="Domicilio">Domicilio </label>
+          </td>
+          
+          <td valign="top">
+            <input  type="text" name="domicilio" maxlength="80" size="30" required="required"  value="<?php echo $domicilio;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Telefono">Telefono</label>
+          </td>
+   
+          <td valign="top">
+            <input  type="text" name="telefono" maxlength="80" size="30" required="required" value="<?php echo $telefono;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Celular">Celular</label>
+          </td>
+ 
+          <td valign="top">
+            <input  type="text" name="celular" maxlength="80" size="30" required="required" value="<?php echo $celular;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+    
+        <tr>
+          <td valign="top">
+            <label for="E-mail">E-mail</label>
+          </td>
+   
+          <td valign="top">
+            <input  type="email" name="email" maxlength="80" size="30" required="required" value="<?php echo $email;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Fecha de ingreso">Fecha de ingreso </label>
+          </td>
+      
+          <td valign="top">
+            <input  type="date" name="fechaingreso" maxlength="10" size="10" required="required" value="<?php echo $fechaingreso;?>" <?php echo $disabled;?>> (dd/mm/aaaa)
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Fecha de movimiento">Fecha de movimiento</label>
+          </td>
+   
+          <td valign="top">
+            <input  type="date" name="fechamovimiento" maxlength="10" size="10" required="required" value="<?php echo $fechamovimiento;?>" <?php echo $disabled;?>> (dd/mm/aaaa)
+          </td>
+        </tr>
+
+        <tr>
+          <td valign="top">
+            <label for="Estado">Estado</label>
+          </td>
+    
+          <td valign="top">
+            <input  type="text" name="estado" maxlength="1" size="1" required="required" value="<?php echo $estado;?>" <?php echo $disabled;?>>
+          </td>
+        </tr>
+ 
+       
+   
+        <tr>
+          <td colspan="2" style="text-align:center">
+            <?php
+            if($accion=="nuevo"){
+              ?><input type="submit" id="save" disabled="false" value="::: Grabar"><?php
+            }
+
+            if($accion=="modifica"){
+              ?><input type="submit" value="::: Grabar"><?php
+            }
+
+            if($accion=="borra"){
+                ?><a href="profe_borra.php?dni=<?php echo $dni;?>"><input type="button" value="::: Borrar"></a><?php
+            }
+            ?>            
+          </td>
+        </tr>
+     </table>
+    </form>
+    <script src="js/jquery-3.1.1.min.js"></script>
+    <script>
+      $("#dniProfesor").change(function(){
+        var dni = $("#dniProfesor").val();
+        $.ajax({
+          url: "existe_dni.php?dniProfesor="+dni,
+          success: function(data){
+            if(data == 1)
+            {
+              alert('El D.N.I ingresado ya se encuentra en uso.');
+              $('#save').attr('disabled', true);
+            } else {
+              $('#save').attr('disabled', false);
+            }
+          }
+        });
+      });
+    </script>  
+  </body>
+</html>

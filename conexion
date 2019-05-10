@@ -1,0 +1,45 @@
+<?php
+function Conexion(){
+	
+	//se establece conexion al MySql
+	$link = mysqli_connect('localhost', 'root','','complejo'); 		
+    
+	//se verifica conexion    
+    if (mysqli_connect_errno()){										
+       echo "No se pudo conectar a MySQL: " . mysqli_connect_error();
+       exit();
+    }
+	return $link;
+}
+
+function  Error($linea,$link){
+	?>
+	<script type="text/javascript">
+		alert("Error (#:<?php echo mysqli_errno($link).' : '.mysqli_error($link);?>) en linea SQL:\n\n<?php echo mysqli_sqlstate($link);?>");
+		alert("Error (:<?php echo $linea;?>");
+	</script>
+	<?php	
+	//mysqli_query("rollback");
+	mysqli_close($link);
+
+}
+
+function ($fecha) {
+	if ($fecha<>"")
+   {
+   	$trozos=explode("/",$fecha,3);
+      return "".$trozos[2]."-".$trozos[1]."-".$trozos[0]."";
+   } else {
+      return "NULL";
+   }
+};
+
+function ($fecha){
+	if (($fecha == "") or ($fecha == "0000-00-00") )
+   {
+      return "";
+   } else {
+      return date("d/m/Y",strtotime($fecha));
+   }
+};
+?>

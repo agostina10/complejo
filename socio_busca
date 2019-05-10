@@ -1,0 +1,50 @@
+<?php
+session_start();
+error_reporting( error_reporting() & ~E_NOTICE );
+
+if($_SESSION['logueo'] != true){
+  session_destroy();
+  header( 'Location: ./');
+}
+?>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+  </head>
+  <body>
+    <?php include("./include/menu.php");?>
+    <br>
+    <br>
+
+    <?php
+
+    $accion =$_REQUEST['accion'];
+
+    //busqueda de datos
+    include './include/conexion.php';
+    $link = Conexion();   
+    
+    $sql ="SELECT * FROM socios ORDER BY apellido, nombre"; 
+    $res =mysqli_query($link,$sql);
+    
+    ?>
+    <form name="contactform" method="post" action="socio_datos.php"> 
+      <input type="hidden" name="accion" value="<?php echo $accion;?>">     
+      <select name="dni">
+        <?php
+        while ($row = mysqli_fetch_assoc ($res)){
+          ?>
+          <option value="<?php echo $row['dni'];?>"> <?php echo $row['apellido'].", ".$row['nombre'];?></option>
+          <?php
+        }
+        ?>
+      </select>
+      <input type="submit" value="Seleccionar">
+    </form>
+    <?php
+    @mysqli_close($link);  
+       
+    ?>
+    </body>
+</html>

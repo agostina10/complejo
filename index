@@ -1,0 +1,97 @@
+<?php
+session_start(); //el manejador de sesion tiene que ser siempre la primer linea del archivo PHP
+error_reporting( error_reporting() & ~E_NOTICE )
+?>
+
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="./css/menu.css" media="screen" />
+		
+	</head>
+	<body>
+	<center> <!-- el form ahora apunta a si mismo y sera procesado en la seccion PHP mas abajo -->
+		<h3>
+			Bienvenido<br>
+		</h3>		
+		<br>
+		<br>
+		<?php
+		if($_SESSION['logueo'] != true){ //se controla que ya no este logueado
+			
+			//se incluye a este archivo el contenido del siguiente, tener en cuenta el RUTEO relativo, el punto/ representa donde se esta parado actualmente.
+			include './include/conexion.php';
+
+			$usuario= $_POST['usuario'];										
+			$clave	= $_POST['clave'];
+	
+			//se verifica es es la primer carga de navegador o viene de un ingreso solicitado.
+			if($usuario!=null && $clave!=null){
+	
+				//se establece conexion al MySql segun la conexion guardada en el archivo conexion.php asi se reutiliza a futuro...
+				$link = Conexion();		
+    
+				//se establece el string de consulta, las variables se autoreemplazas en el lugar que esten.
+				$sql="SELECT * FROM usuarios WHERE usuario='$usuario' and clave='$clave' LIMIT 1"; 
+	
+				//se realiza la consulta y el resultado (array (matriz)) es almacenado en una variable $res
+				$res=mysqli_query($link,$sql);
+	
+				//se extrae el primer vector del array
+				$row = mysqli_fetch_assoc ($res);
+				
+				//se cierra la conexion.
+				@mysqli_close($link);
+				
+				//se compara lo devuelto por MySql.
+				if($usuario==$row['usuario'] and $clave==$row['clave']){
+					echo " welcome !!! ";
+					$_SESSION['logueo'] = true; //pongo una variable de control, soy original y la llamo LOGUEO  jijij, puede ser cualquiera.
+					MostrarOpciones(); //Llama a la funcion declarada al final de este archivo.
+				}else{
+					echo "usuario incorrecto, wel te come!!!";
+					MostrarLogueo();
+				}				
+			}else{
+				MostrarLogueo();
+			}	
+		}else{
+			MostrarOpciones(); //Llama a la funcion declarada al final de este archivo.
+		}
+		?>
+	</center>
+	<body>
+</html>
+
+<?php
+//---------------------------------------------------------------------------------
+function MostrarLogueo(){
+	?>
+	<form action="index.php" method="post">			
+		<table> 
+			<tr>
+				<td>Usuario:</td>
+				<td><input type="text" name="usuario"></td>
+			</tr>
+				
+			<tr>
+				<td>Clave:	</td>
+				<td><input type="password" name="clave"></td>
+			</tr>
+		</table>
+			
+		<br>
+			
+		<input type="submit" value="entrar">
+		<input type="reset">
+			
+	</form>
+			
+	<?php	
+}
+
+//------------------------------------------------------------------------------
+function MostrarOpciones(){	
+	header( 'Location: ./intro.php');
+}
+
+?>
